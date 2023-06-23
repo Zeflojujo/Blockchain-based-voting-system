@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<link rel="stylesheet" type="text/css" href="lll.css">
+
+    </head>
+    <body>
+
+
+        <div class="container" id="main">
+                <div class="sign-up">
+                    <form action="">
+                        <h1>Sign In</h1>
+                        <p>For Admin Only</p>
+                        <div class="social-container">
+                            <a href="" class="social-container"><i class="fab fa-facebook-f"> </i></a>
+                            <a href="" class="social-container"><i class="fab fa-google-plus-g"> </i></a>
+                            <a href="" class="social-container"><i class="fab fa-linkedin-in"> </i></a> 
+                        </div>
+                        <p>Click below button to Sign In as an Admin</p>
+                        <!-- <input type="email" placeholder="Email">
+                        <input type="password"  placeholder="password"> -->
+                        <button id="admin">sign In</button>
+                    </form>
+                </div>
+
+                <div class="sign-in">
+                    <form action="">
+                        <!-- <h1>E <span> Vote</span></h1> -->
+                        <h4>The University of Dodoma</h4>
+                        <p>Blockchain Based Voting System</p>
+                        <div class="social-container">
+                            <a href="" class="social-container"><i class="fab fa-facebook-f"> </i></a>
+                            <a href="" class="social-container"><i class="fab fa-google-plus-g"> </i></a>
+                            <a href="" class="social-container"><i class="fab fa-linkedin-in"> </i></a> 
+                        </div>
+                       
+                        <!-- <input type="email" placeholder="Email">
+                        <input type="password"  placeholder="password"> -->
+                        <a href="">Dont you have account?<span>Create Account</span></a>
+                        <button id="voter">sign in</button>
+                    </form>
+                </div>
+
+                <div class="overlay-container">
+                    <div class="overlay">
+                        <div class="overlay-left">
+                            <h1>Welcome Back!</h1>
+                            <p>Secure platform based on a new and rapid emerging technology of Blockchain</p>
+                            <button id="signIn">Voter</button>
+                        </div>
+
+                        <div class="overlay-right">
+                            <h1>Hellow</h1>
+                            <p>welcome to the Blockchain Based Electronic Voting system for Higher Learning Institutions.</p>                
+                            <button id="signUp">Admin</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <script>
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn');
+            const main = document.getElementById('main');
+
+            signUpButton.addEventListener('click',() =>{
+                main.classList.add("right-panel-active");
+            });
+
+            signInButton.addEventListener('click',() =>{
+                main.classList.remove("right-panel-active");
+            });
+        </script>
+    </body>
+</html>
