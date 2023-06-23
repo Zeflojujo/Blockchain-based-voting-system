@@ -40,7 +40,7 @@ transition: all 0.6s ease-out;
     width: 50%;
     z-index: 2;
 }
-form{
+.form-home{
     background: #fff;
     display: flex;
     align-items: center;
@@ -76,7 +76,7 @@ a{
     text-decoration: none;
     margin: 15px 0;
 }
-button{
+.home-button{
     color: #fff;
     background: #1d9b39;
     font-size:12px;
