@@ -41,7 +41,7 @@ function App() {
 
   return (
     <HashRouter>
-        <AuthProvider>
+        {/* <AuthProvider> */}
 
       <Routes>
       <Route path="/" element={<Home/>} />
@@ -67,7 +67,7 @@ function App() {
           <Route path="/user/result" element={<UserResult/>} />      
 
       </Routes>
-      </AuthProvider>
+      {/* </AuthProvider> */}
 
     </HashRouter>      
   );

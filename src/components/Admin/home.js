@@ -17,11 +17,11 @@ const SignInComponent = () => {
 
   const handleVoterLogin = (event) => {
     event.preventDefault();
-    window.location.href = "/user/login"
+    window.location.hash = "/user/login"
   }
   const handleAdminLogin = (event) => {
     event.preventDefault();
-    window.location.href = "/admin/auth"
+    window.location.hash = "/admin/auth"
   }
 
   return (
