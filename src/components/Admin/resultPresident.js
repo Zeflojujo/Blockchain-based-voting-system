@@ -167,7 +167,7 @@ const ResultPresident = (props) => {
         setSuccessMessage("Woop woop! President is registered successfully!");
         setSuccessMessageOpen(true); 
         
-        window.location.href="/admin/listPresident";
+        window.location.hash="/admin/listPresident";
   
         setFirstName("");
         setLastName("");

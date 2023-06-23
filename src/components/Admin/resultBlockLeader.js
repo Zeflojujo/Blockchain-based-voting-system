@@ -221,7 +221,7 @@ const ResultBlockLeader = (props) => {
       
       setSuccessMessage("BlockLeader is registered successfully!");
       setSuccessMessageOpen(true);
-      window.location.href="/admin/listBLs";
+      window.location.hash="/admin/listBLs";
 
       setFirstName("");
       setLastName("");

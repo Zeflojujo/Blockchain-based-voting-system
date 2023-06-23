@@ -175,7 +175,7 @@ const ResultBlockLeader = (props) => {
 
       setSuccessMessage("Woop woop! Governor is registered successfully!!!");
       setSuccessMessageOpen(true);
-      window.location.href="/admin/listGovernor";
+      window.location.hash="/admin/listGovernor";
 
       setFirstName("");
       setLastName("");
