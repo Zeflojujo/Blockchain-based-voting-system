@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import SignIn from './components/Admin/login';
 // import RegisterVoter from './components/Admin/Voter';
 import Result from './components/Admin/result';
@@ -40,7 +40,7 @@ function App() {
   //   }, [web3, sessionId])
 
   return (
-    <BrowserRouter>
+    <HashRouter>
         <AuthProvider>
 
       <Routes>
@@ -69,7 +69,7 @@ function App() {
       </Routes>
       </AuthProvider>
 
-    </BrowserRouter>      
+    </HashRouter>      
   );
 }
 
