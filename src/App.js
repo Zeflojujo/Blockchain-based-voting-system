@@ -41,17 +41,17 @@ function App() {
 
   return (
     <HashRouter>
-        <AuthProvider>
+      <AuthProvider>
 
-      <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/admin/auth" element={<SignIn/>} />
-      <Route path="/user/regVoter" element={<UserRegisterVoter/>} />   
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/admin/auth" element={<SignIn/>} />
+          <Route path="/user/regVoter" element={<UserRegisterVoter/>} />   
 
 
-      <Route path="/user/login" element={<UserSignIn/>} />
+          <Route path="/user/login" element={<UserSignIn/>} />
 
-          
+            
           <Route path='/admin/dashboard' element={<Dashboard/>} />
           {/* <Route path="/admin/regVoter" element={<RegisterVoter/>} /> */}
           <Route path="/admin/listVoters" element={<Result/>} />
@@ -64,9 +64,9 @@ function App() {
 
           <Route path='/user/dashboard' element={<UserDashboard/>} />
           <Route path="/user/castVote" element={<UserCastVote/>} />   
-          <Route path="/user/result" element={<UserResult/>} />      
+          <Route path="/user/result" element={<UserResult/>} />  }    
 
-      </Routes>
+        </Routes>
       </AuthProvider>
 
     </HashRouter>      
