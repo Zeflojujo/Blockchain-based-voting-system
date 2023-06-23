@@ -241,7 +241,7 @@ const SignIn = () => {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
-              <span>Dont you have account? <a href="/user/regVoter" style={{textDecoration: "none", color: '#1d9b39'}}>Create Account</a></span>
+              <span>Dont you have account? <a href="/#/user/regVoter" style={{textDecoration: "none", color: '#1d9b39'}}>Create Account</a></span>
 
             <Button
               type="submit"
