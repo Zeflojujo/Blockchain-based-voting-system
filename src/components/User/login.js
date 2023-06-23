@@ -236,10 +236,7 @@ const SignIn = () => {
                   helperText={formik.touched.password && formik.errors.password}
                 /> 
               {/* </Grid> */}
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+              
               <span>Dont you have account? <a href="/#/user/regVoter" style={{textDecoration: "none", color: '#1d9b39'}}>Create Account</a></span>
 
             <Button
@@ -251,19 +248,6 @@ const SignIn = () => {
             >
               Sign In
             </Button>
-            {/* {voters && (
-              <div>
-                <p>Voter Address: {voters.voterAddress}</p>
-                <p>First Name: {voters.firstName}</p>
-                <p>Last Name: {voters.lastName}</p>
-                <p>College Name: {voters.collegeName}</p>
-                <p>Program Name: {voters.programName}</p>
-                <p>Registration Number: {voters.regNo}</p>
-                <p>Year of Study: {voters.yearOfStudy}</p>
-                <p>Block Number: {voters.blockNumber}</p>
-                <p>Gender: {voters.gender}</p>
-              </div>
-            )} */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

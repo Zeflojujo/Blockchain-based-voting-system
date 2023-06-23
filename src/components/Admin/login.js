@@ -27,9 +27,8 @@ import Stack from '@mui/material/Stack';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'@'}
-        Blockchain Based Electronic Voting System 
-      {new Date().getFullYear()}
+        &copy;Zeflojujo Ltd: UDOSO E-Voting System 
+      {" " + new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -187,7 +186,7 @@ const SignIn = () => {
             }
           
 
-            <Grid item xs={12} sm={6} lg={6}>
+            {/* <Grid item xs={12} sm={6} lg={6}> */}
                 <TextField
                   margin="normal"
                   autoComplete="username"
@@ -201,9 +200,9 @@ const SignIn = () => {
                   error={formik.touched.username && Boolean(formik.errors.username)}
                   helperText={formik.touched.username && formik.errors.username}
               />
-            </Grid>
+            {/* </Grid> */}
 
-            <Grid item xs={12} sm={6} lg={6}>
+            {/* <Grid item xs={12} sm={6} lg={6}> */}
                 <TextField
                   margin="normal"
                   fullWidth
@@ -218,7 +217,7 @@ const SignIn = () => {
                   error={formik.touched.password && Boolean(formik.errors.password)}
                   helperText={formik.touched.password && formik.errors.password}
                 />
-              </Grid>
+              {/* </Grid> */}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

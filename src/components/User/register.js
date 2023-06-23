@@ -304,9 +304,6 @@ const RegisterVoter = (props) => {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: isXs || isSm ? 2 : isMd ? 4 : 6, mb: isXs || isSm ? 2 : isMd ? 4 : 6 }}>
             <Grid container spacing={isXs || isSm ? 1 : isMd ? 2 : 3}>
-              <Typography component="h1" variant={isXs ? 'h6' : isSm ? 'h5' : 'h4'} style={{display:"flex", textAlign: "center", justifyContent: "center"}}>
-                Voter Registration Form
-              </Typography> 
             <Grid item xs={12}>
 
               {/* <Paper 
@@ -354,7 +351,7 @@ const RegisterVoter = (props) => {
                                       <LockOutlinedIcon />
                                     </Avatar>
                                     <Typography component="h1" variant={isXs ? 'h6' : isSm ? 'h5' : 'h4'}>
-                                      Register Voter Here
+                                      Voter Registration Form
                                     </Typography> 
 
                                     {/* <Box component="form" noValidate sx={{ mt: 3 }}> */}
