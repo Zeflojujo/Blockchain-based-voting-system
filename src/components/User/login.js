@@ -29,9 +29,8 @@ import Stack from '@mui/material/Stack';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'@'}
-        Blockchain Based Electronic Voting System 
-      {new Date().getFullYear()}
+        &copy;Zeflojujo Ltd: UDOSO E-Voting System 
+      {" " + new Date().getFullYear()}
       {'.'}
     </Typography>
   );
