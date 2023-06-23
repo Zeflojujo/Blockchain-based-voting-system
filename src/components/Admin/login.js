@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
-// import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -187,7 +187,7 @@ const SignIn = () => {
             }
           
 
-            {/* <Grid item xs={12} sm={6} lg={6}> */}
+            <Grid item xs={12} sm={6} lg={6}>
                 <TextField
                   margin="normal"
                   autoComplete="username"
@@ -201,10 +201,9 @@ const SignIn = () => {
                   error={formik.touched.username && Boolean(formik.errors.username)}
                   helperText={formik.touched.username && formik.errors.username}
               />
-              {/* <FormHelperText error>{errorAddress}</FormHelperText> */}
-            {/* </Grid> */}
+            </Grid>
 
-            {/* <Grid item xs={12} sm={6} lg={6}> */}
+            <Grid item xs={12} sm={6} lg={6}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -219,8 +218,7 @@ const SignIn = () => {
                   error={formik.touched.password && Boolean(formik.errors.password)}
                   helperText={formik.touched.password && formik.errors.password}
                 />
-                {/* <FormHelperText error>{errorPassword}</FormHelperText>  */}
-              {/* </Grid> */}
+              </Grid>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
