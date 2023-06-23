@@ -33,7 +33,7 @@ const NavBar = ({drawerWidth, open, toggleDrawer}) => {
 
     const handleLogout = () => {
       localStorage.removeItem('sessionId');
-      window.location.href = '/user/login';
+      window.location.hash = '/user/login';
     }
     
 
