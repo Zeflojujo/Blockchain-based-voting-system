@@ -103,7 +103,7 @@ const SignIn = () => {
         if(result) {
           const sessionId = web3.utils.randomHex(32);
           window.localStorage.setItem('session', sessionId);
-          window.location.href = "/admin/dashboard";
+          window.location.hash = "/admin/dashboard";
           // setSessionId(sessionId);
           console.log(sessionId);
         }else {
