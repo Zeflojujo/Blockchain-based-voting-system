@@ -793,7 +793,7 @@ const handleCastVoteBlockLeader = async (event) => {
                                         
                                         label={
                                           <Box sx={{ display: 'subtitle1', alignItems: 'center' }}>
-                                            <Avatar src={blockLeader.image} sx={{ marginRight: '0.5rem' }} />
+                                            <Avatar src={filteredBlockLeades.image} sx={{ marginRight: '0.5rem' }} />
                                             <div>
                                               <Typography variant="body1" sx={{ marginRight: '0.5rem' }}>
                                                 Name: {blockLeader.firstName} {blockLeader.lastName}

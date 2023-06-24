@@ -64,7 +64,7 @@ function App() {
 
           <Route path='/user/dashboard' element={<UserDashboard/>} />
           <Route path="/user/castVote" element={<UserCastVote/>} />   
-          <Route path="/user/result" element={<UserResult/>} />  }    
+          <Route path="/user/result" element={<UserResult/>} />   
 
         </Routes>
       </AuthProvider>
