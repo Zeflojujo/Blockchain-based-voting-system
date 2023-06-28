@@ -16,11 +16,12 @@ import { Alert } from '@mui/material';
 import Web3 from 'web3';
 import voterContractAbi from "../../abi/VoterContract.json";
 // import VoterRegistry2 from "../../abi/VoterRegistry.json";
-// import CandidatePresident from "../../abi/CandidatePresident.json";
-// import CandidateGovernor from "../../abi/CandidateGovernor.json";
-// import CandidateBlockLeader from "../../abi/CandidateBlockLeader.json";
+import CandidatePresident from "../../abi/CandidatePresident.json";
+import CandidateGovernor from "../../abi/CandidateGovernor.json";
+import CandidateBlockLeader from "../../abi/CandidateBlockLeader.json";
+import AccessControlAbi from "../../abi/TimeControl.json";
 
-import candidateAbi from "../../abi/CandidateContract.json";
+// import candidateAbi from "../../abi/CandidateContract.json";
 import voterAbi from "../../abi/VoterContract.json";
 // import contractCastVoteGovernorAbi from "../../abi/CastVote.json";
 
@@ -63,7 +64,8 @@ const RegisterVoter = (props) => {
   const [web3, setWeb3] = useState(null);
   // const [userAccounts, setUserAccounts] = useState("");
   const [governors, setGovernors] = useState([]);
-  const [filteredGovernr, setFilteredGovernr] = useState(governors);
+  const [status, setStatus] = useState(false);
+  // const [filteredGovernr, setFilteredGovernr] = useState(governors);
   const [presidents, setPresidents] = useState([]);
   const [blockLeaders, setBlockLeaders] = useState([]);
   const [filteredBlockLeades, setFilteredBlockLeades] = useState([]);
@@ -99,19 +101,8 @@ const RegisterVoter = (props) => {
           setWeb3(web3);
 
           // Get user accounts
-          // const accounts = await web3Instance.eth.getAccounts();
+          // const accounts = await web3.eth.getAccounts();
           // setUserAccounts(accounts);
-
-          // const abi = candidateAbi.abi;
-          // const address = candidateAbi.networks[5777].address;
-          // const contract = new web3.eth.Contract(abi, address);
-          // const selectedAccount = await web3.eth.getCoinbase();
-          // console.log("User address2", selectedAccount);
-          // const governorList = await contract.methods.voterViewGovernors(selectedAccount).call();
-          // setGovernors(governorList);
-          // console.log("candidate governor details: ", governorList);
-          
-          // console.log("User address", selectedAccount);
 
         }
         catch(error){
@@ -124,13 +115,26 @@ const RegisterVoter = (props) => {
     };
     init(); 
     getGovernors();
-    // getGovernorss();
     getPresidents();
     getBlockLeaders();
     getVoters();
-    // handleFilterGovernor();
+    getVotingTimeStatus();
+  },[ governors, blockLeaders, status]);
 
-  },[voter.collegeName, governors, filteredGovernr, blockLeaders, filteredBlockLeades]);
+  const getVotingTimeStatus = async () => {
+    const web3 = new Web3(networkId);
+    const abi = AccessControlAbi.abi;
+    const address = AccessControlAbi.networks[5777].address;
+    const contract = new web3.eth.Contract(abi, address);
+
+    console.log("before starting voting");
+
+    const timeStatus = await contract.methods.getVotingStatus().call();
+
+    console.log(timeStatus);
+
+    setStatus(timeStatus);
+}
 
   // const getGovernors = async () => {
   //   try{
@@ -193,105 +197,10 @@ const RegisterVoter = (props) => {
 
 };
 
-
-
-
-
-const getGovernors = async () => {
-  const web3 = new Web3(networkId);
-  const abi = candidateAbi.abi;
-  const address = candidateAbi.networks[5777].address;
-  console.log(address);
-  const contract = new web3.eth.Contract(abi, address);
-  const governorRegNumberKeys = await contract.methods.getGovernorRegNumber().call();
-  console.log(governorRegNumberKeys);
-  const governorData = [];
-
-  for (let i = 0; i < governorRegNumberKeys.length; i++) {
-    const governorRegNumber = governorRegNumberKeys[i];
-    console.log(`The registration number is: ${governorRegNumber}`);
-    const governor = await contract.methods.adminViewGovernors(governorRegNumber).call();
-    governorData.push(governor);
-  }
-  console.log(governorData);
-
-  setGovernors(governorData);
-
-  const filteredGovernor = governorData.filter((governor) =>
-    governor.collegeName.includes(voter.collegeName)
-  );
-  console.log("Filtered Governor", filteredGovernor);
-  setFilteredGovernr(filteredGovernor);
-};
-
-const getBlockLeaders = async () => {
-  try{
-    const web3 = new Web3(networkId);
-    const abi = candidateAbi.abi;
-    const address = candidateAbi.networks[5777].address;
-    const contract = new web3.eth.Contract(abi, address);
-    const blockRegNumberKeys = await contract.methods.getBlockLeaderRegNumber().call();
-
-    const blockData = [];
-
-    for(let i=0; i<blockRegNumberKeys.length; i++){
-      const blockRegNumber = blockRegNumberKeys[i];
-      const block = await contract.methods.adminViewBlockLeaders(blockRegNumber).call();
-      blockData.push(block);
-    }
-
-    setBlockLeaders(blockData);
-
-    const filteredBlockLeader = blockData.filter((blockLeader) =>
-    blockLeader.collegeName.includes(voter.collegeName) && blockLeader.blockNumber.includes(voter.blockNumber)
-  );
-  console.log("Filtered Governor", filteredBlockLeader);
-  setFilteredBlockLeades(filteredBlockLeader);
-
-  }catch(error){
-    console.log(error.message);
-  }
-  
-};
-
-//   const getGovernors = async () => {
-//     const web3 = new Web3(networkId);
-//     const abi = candidateAbi.abi;
-//     const address = candidateAbi.networks[5777].address;
-//     console.log(address);
-//     const contract = new web3.eth.Contract(abi, address);
-//     const governorRegNumberKeys = await contract.methods.getGovernorRegNumber().call();
-//     console.log(governorRegNumberKeys)
-//     const governorData = [];
-
-
-
-
-    
-//     for(let i=0; i<governorRegNumberKeys.length; i++){
-//       const governorRegNumber = governorRegNumberKeys[i];
-//       console.log(`The registration number is: ${governorRegNumber}`);
-//       const governor = await contract.methods.adminViewGovernors(governorRegNumber).call();
-//       governorData.push(governor);
-//     }
-//       console.log(governorData)
-    
-//     setGovernors(governorData);
-
-//     const filteredGovernor = governorData.filter((governor) => (
-//       governor.collegeName.includes(voter.collegeName)
-//     ));
-//     console.log("Filtered Governor" ,filteredGovernor)
-//     setFilteredGovernr(filteredGovernor);
-
-
-    
-// };
-
 const getPresidents = async () => {
   const web3 = new Web3(networkId);
-  const abi = candidateAbi.abi;
-  const address = candidateAbi.networks[5777].address;
+  const abi = CandidatePresident.abi;
+  const address = CandidatePresident.networks[5777].address;
   // const selectedAccount = await web3.eth.getCoinbase();
   // console.log("User address", selectedAccount);
   
@@ -313,29 +222,53 @@ const getPresidents = async () => {
 
 };
 
-// const getBlockLeaders = async () => {
-//   try{
-//     const web3 = new Web3(networkId);
-//     const abi = candidateAbi.abi;
-//     const address = candidateAbi.networks[5777].address;
-//     const contract = new web3.eth.Contract(abi, address);
-//     const blockRegNumberKeys = await contract.methods.getBlockLeaderRegNumber().call();
 
-//     const blockData = [];
+const getGovernors = async () => {
+  // const web3 = new Web3(networkId);
+  const abi = CandidateGovernor.abi;
+  const address = CandidateGovernor.networks[5777].address;
+  const vAddress = voterAbi.networks[5777].address;
+  console.log('Voter contract address: ', vAddress)
 
-//     for(let i=0; i<blockRegNumberKeys.length; i++){
-//       const blockRegNumber = blockRegNumberKeys[i];
-//       const block = await contract.methods.adminViewBlockLeaders(blockRegNumber).call();
-//       blockData.push(block);
-//     }
+  const contract = new web3.eth.Contract(abi, address);
+  console.log("my contract", contract)
 
-//     setBlockLeaders(blockData);
+  const selectedAccount = await web3.eth.getCoinbase();
+  console.log("selected account", selectedAccount)
 
-//   }catch(error){
-//     console.log(error.message);
-//   }
+  const governor = await contract.methods.voterViewGovernors(selectedAccount, vAddress).call();
+
+  console.log("mygovernors", governor);
+
+  setGovernors(governor);
+};
+
+
+const getBlockLeaders = async () => {
+  try{
+    const abi = CandidateBlockLeader.abi;
+    const address = CandidateBlockLeader.networks[5777].address;
+    const vAddress = voterAbi.networks[5777].address;
+    console.log('Voter contract address: ', vAddress)
+
+    const contract = new web3.eth.Contract(abi, address);
+    console.log("my contract", contract)
+    
+    const selectedAccount = await web3.eth.getCoinbase();
+    console.log("selected account", selectedAccount)
+
+    const block = await contract.methods.voterViewBlockLeaders(selectedAccount, vAddress).call();
+
+    console.log("myBlockLeader", block);
+
+    setBlockLeaders(block);
+
+  }catch(error){
+    console.log(error.message);
+  }
   
-// };
+};
+
 
 
 // Cast Vote
@@ -343,16 +276,17 @@ const getPresidents = async () => {
 const handleCastVotePresident = async (event) => {
   try{
 
-    const abi = candidateAbi.abi;
-    const address = candidateAbi.networks[5777].address;
+    const abi = CandidatePresident.abi;
+    const address = CandidatePresident.networks[5777].address;
     const vAddress = voterAbi.networks[5777].address;
+    const AccessControlAddress = AccessControlAbi.networks[5777].address;
 
     const contract = new web3.eth.Contract(abi, address);
 
     const selectedAccount = await web3.eth.getCoinbase();
     console.log("castVote voter address: ",selectedAccount);
 
-    await contract.methods.castVotePresident(selectedPresidentCandidate, vAddress).send({ from: selectedAccount, gas: 1000000 });
+    await contract.methods.castVotePresident(selectedPresidentCandidate, vAddress, AccessControlAddress).send({ from: selectedAccount, gas: 1000000 });
 
     setSuccessMessage("You successfully casting vote for president!");
 
@@ -381,20 +315,20 @@ const handleCastVotePresident = async (event) => {
 const handleCastVoteGovernor = async (event) => {
   try{
 
-    const abi = candidateAbi.abi;
-    const address = candidateAbi.networks[5777].address;
+    const abi = CandidateGovernor.abi;
+    const address = CandidateGovernor.networks[5777].address;
     const vAddress = voterAbi.networks[5777].address;
+    const AccessControlAddress = AccessControlAbi.networks[5777].address;
 
     const contract = new web3.eth.Contract(abi, address);
 
     const selectedAccount = await web3.eth.getCoinbase();
     console.log("castVote voter address: ",selectedAccount);
 
-    await contract.methods.castVoteGovernor(selectedGovernorCandidate, vAddress).send({ from: selectedAccount, gas: 1000000 });
-
-
+    await contract.methods.castVoteGovernor(selectedGovernorCandidate, vAddress, AccessControlAddress).send({ from: selectedAccount, gas: 1000000 });
 
   }catch(error){
+
     if(error.message.includes("Voter is not registered")){
       const errorMessage = "Voter is not registeredg!!!";
       setErrorMessage(errorMessage);
@@ -419,18 +353,17 @@ const handleCastVoteGovernor = async (event) => {
 const handleCastVoteBlockLeader = async (event) => {
   try{
 
-    const abi = candidateAbi.abi;
-    const address = candidateAbi.networks[5777].address;
+    const abi = CandidateBlockLeader.abi;
+    const address = CandidateBlockLeader.networks[5777].address;
     const vAddress = voterAbi.networks[5777].address;
+    const AccessControlAddress = AccessControlAbi.networks[5777].address;
 
     const contract = new web3.eth.Contract(abi, address);
 
     const selectedAccount = await web3.eth.getCoinbase();
     console.log("castVote voter address: ",selectedAccount)
 
-    await contract.methods.castVoteBlockLeader(selectedBlockLeaderCandidate, vAddress).send({ from: selectedAccount, gas: 1000000 });
-
-
+    await contract.methods.castVoteBlockLeader(selectedBlockLeaderCandidate, vAddress, AccessControlAddress).send({ from: selectedAccount, gas: 1000000 });
 
   }catch(error){
     if(error.message.includes("Voter is not registered")){
@@ -440,44 +373,21 @@ const handleCastVoteBlockLeader = async (event) => {
       window.location.href = "/user/login";
 
     }
-    // else if(error.message.includes("You have already registered this Governor.")){
-    //   const errorMessage = "Candidate Governor is already registered!!!";
-    //   setErrorMessage(errorMessage);
-    //   setErrorMessageOpen(true);
-    // }else if (error.message.includes("The registered governor is enough!")) {
-    //   const errorMessage = "Error Error! The Registered governor is enough!!!"
-    //   setErrorMessage(errorMessage);
-    //   setErrorMessageOpen(true);
-    // } else {
-    //   setErrorMessage("");
-    //   setErrorMessageOpen(false);
-    // }
+    else if(error.message.includes("You have already registered this Governor.")){
+      const errorMessage = "Candidate Governor is already registered!!!";
+      setErrorMessage(errorMessage);
+      setErrorMessageOpen(true);
+    }else if (error.message.includes("The registered governor is enough!")) {
+      const errorMessage = "Error Error! The Registered governor is enough!!!"
+      setErrorMessage(errorMessage);
+      setErrorMessageOpen(true);
+    } else {
+      setErrorMessage("");
+      setErrorMessageOpen(false);
+    }
     console.error(error.message);
   }   
 }
-
-
-// const MyComponent = () => {
-//   const [data, setData] = useState([
-//     { id: 1, name: 'John' },
-//     { id: 2, name: 'Jane' },
-//     { id: 3, name: 'Bob' },
-//     { id: 4, name: 'Alice' }
-//   ]);
-
-//   const filteredData = data.filter(item => item.name.startsWith('J'));
-
-//   return (
-//     <div>
-//       <h1>Filtered Data:</h1>
-//       <ul>
-//         {filteredData.map(item => (
-//           <li key={item.id}>{item.name}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
 
   const handleVotePresident = () => {
     console.log('President Candidate:', selectedPresidentCandidate);
@@ -527,15 +437,6 @@ const handleCastVoteBlockLeader = async (event) => {
   const handleErrorSnackbarClose = () => {
     setErrorMessageOpen(false);
   };
-  // const handleFilterGovernor = () => {
-  //   // const keyword = event.target.value;
-  //   const filteredGovernor = governors.filter(governor => governor.collegeName.includes(voter.collegeName));
-  //   setFilteredGovernr(filteredGovernor);
-  //   console.log("Filtered Governor" ,filteredGovernor)
-  // };
-
-  // const filteredGovernor = governors.filter(governor => governor.collegeName.includes(voter.collegeName));
-  // console.log("Filtered Governor" ,filteredGovernor)
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -561,16 +462,15 @@ const handleCastVoteBlockLeader = async (event) => {
             <Grid container spacing={3}>
 
               <Grid item xs={12}>
+              {/* {
+              status ? */}
 
-                <Paper 
+              <Paper 
                   sx={{ 
                     p: 2, 
                     display: 'flex', 
                     flexDirection: 'column' 
                   }}>
-
-                  
-
 
 
                   <Box sx={{ padding: '1rem' }}>
@@ -696,7 +596,7 @@ const handleCastVoteBlockLeader = async (event) => {
                               /> 
                               
                                 <Divider sx={{ marginY: '0.5rem' }} />
-                                {filteredGovernr.map((governor, index) => (
+                                {governors.map((governor, index) => (
                                 <Grid key={index} item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'left' }}>
                                   
                                   <Box sx={{ display: 'flex', alignItems: 'left' }}>
@@ -718,7 +618,7 @@ const handleCastVoteBlockLeader = async (event) => {
                                                 <Avatar src={governor.image} sx={{ marginRight: '0.5rem' }} />
                                                 <div>
                                                   <Typography variant="body1" sx={{ marginRight: '0.5rem' }}>
-                                                    Name: {governor[0]} {governor.lastName}
+                                                    Name: { governor[0] } { governor[1] }
                                                   </Typography>
                                                   <Typography variant="body2" sx={{ marginRight: '0.5rem' ,display: 'flex', alignItems: 'flex-end', marginTop: '0.5rem'}} component="div" >
                                                     College: {governor[2]}
@@ -762,7 +662,7 @@ const handleCastVoteBlockLeader = async (event) => {
 
                     {/* Cast Vote for BlockLeaders position*/}
                     <Box sx={{ marginTop: '2rem' }}>
-                    <Typography variant="h6" sx={{ fontStyle: 'italic' }}>BlockLeader Election [College of Informatics and Virtual Education]</Typography>
+                    <Typography variant="h6" sx={{ fontStyle: 'italic' }}>BlockLeader Election</Typography>
 
                       <Grid container spacing={2} sx={{ display: 'column', alignItems: 'center' }}>
                         
@@ -796,16 +696,16 @@ const handleCastVoteBlockLeader = async (event) => {
                                             <Avatar src={filteredBlockLeades.image} sx={{ marginRight: '0.5rem' }} />
                                             <div>
                                               <Typography variant="body1" sx={{ marginRight: '0.5rem' }}>
-                                                Name: {blockLeader.firstName} {blockLeader.lastName}
+                                                Name: {blockLeader[0]} {blockLeader[1]}
                                               </Typography>
                                               <Typography variant="body2" sx={{ marginRight: '0.5rem' ,display: 'flex', alignItems: 'flex-end', marginTop: '0.5rem'}} component="div" >
-                                                College: {blockLeader.collegeName}
+                                                College: {blockLeader[2]}
                                               </Typography>
                                               <Typography variant="body2" sx={{ marginRight: '0.5rem' ,display: 'flex', alignItems: 'flex-end', marginTop: '0.5rem'}} component="div">
-                                                Program: {blockLeader.programName}
+                                                Program: {blockLeader[3]}
                                               </Typography>
                                               <Typography variant="body2" sx={{ marginRight: '0.5rem' ,display: 'flex', alignItems: 'flex-end', marginTop: '0.5rem'}} component="div">
-                                                RegNo. : {blockLeader.regNo}
+                                                RegNo. : {blockLeader[5]}
                                               </Typography>
                                             </div>
                                             <Divider/>
@@ -862,6 +762,10 @@ const handleCastVoteBlockLeader = async (event) => {
                   </Snackbar>
 
                 </Paper>
+              
+              {/* // : <h2 style={{textAlign: "center"}}>Voting does not Opened Yet!!!...</h2> */}
+              {/* // } */}
+                
 
               </Grid> 
             </Grid>

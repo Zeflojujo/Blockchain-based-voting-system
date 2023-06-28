@@ -106,9 +106,8 @@ const Dashboard = (props) => {
       }  
     };
     init(); 
-    // getVotingTime();
     setInterval(getVotingTime, 1000);
-  },[]);
+  },[startTime, endTime, remainingTime]);
 
 
   const getVotingTime = async () => {
@@ -145,12 +144,7 @@ const Dashboard = (props) => {
   
       // Fetch the time initially
       fetchTimeFromContract();
-  
-      // Fetch the time every X milliseconds (e.g., 5000 milliseconds = 5 seconds)
-      const interval = setInterval(fetchTimeFromContract, 1000);
-  
-      // Cleanup the interval on component unmount
-      return () => clearInterval(interval);
+
     } catch (error) {
       console.log(error.message);
     }
@@ -240,7 +234,7 @@ const Dashboard = (props) => {
                       </Paper>
 
                     {/* <TimeChart /> */}
-                    <TimeChart startTime={startTime} endTime={endTime} />
+                    {/* <TimeChart startTime={startTime} endTime={endTime} /> */}
                 </Paper>
                 
 

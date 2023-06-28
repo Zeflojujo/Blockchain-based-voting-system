@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "./CandidateStructure.sol";
+import "./CandidateContract.sol";
 import "./AccessControl.sol";
-import "./TimeStructure.sol";
+import "./TimeControl.sol";
 
-contract VoterContract is CandidateStructure, AccessControl, TimeStructure{
+contract VoterContract is AccessControl {
 
-     // Data structure for a voter
+    // Data structure for a voter
     struct Voter {   
         address voterAddress; 
         string firstName; 
@@ -27,10 +27,10 @@ contract VoterContract is CandidateStructure, AccessControl, TimeStructure{
     mapping(address => string) public voterSession;
     address[] public voterAddressArray;
 
-    function getVoter( address _voterAddress) public view returns (Voter memory)
-    {
+    function getVoter(address _voterAddress) external view returns (Voter memory){
         return voters[_voterAddress];
     }
+
 
     // function getHasLoggedIn( address _voterAddress) public view returns (bool)
     // {
@@ -42,8 +42,7 @@ contract VoterContract is CandidateStructure, AccessControl, TimeStructure{
     //     return voterSession[_voterAddress];
     // }
 
-    function getVoterAddressArray() public view returns (address[] memory)
-    {
+    function getVoterAddressArray() public view returns (address[] memory){
         return voterAddressArray;
     }
 
@@ -85,26 +84,23 @@ contract VoterContract is CandidateStructure, AccessControl, TimeStructure{
 
 
     // voter can view candidate of the corresponding area of vote
-    function voterViewBlockLeader(address addressVoter) public view returns(Candidate[] memory){
+    // function voterViewBlockLeader(address addressVoter) public view returns(Candidate[] memory){
 
-        Voter memory newVoter = voters[addressVoter];
-        string memory voterCollegeName = newVoter.collegeName;
-        string memory voterBlockNumber = newVoter.blockNumber;
+    //     Voter memory newVoter = voters[addressVoter];
+    //     string memory voterCollegeName = newVoter.collegeName;
+    //     string memory voterBlockNumber = newVoter.blockNumber;
 
-        Candidate[] memory result = new Candidate[](blockLeaderList.length);        
-        for(uint i = 0; i < blockLeaderList.length; i++){
-            if(keccak256(bytes(candidateBlockLeader[blockLeaderList[i]].collegeName)) == keccak256(bytes(voterCollegeName)) && keccak256(bytes(candidateBlockLeader[blockLeaderList[i]].blockNumber)) == keccak256(bytes(voterBlockNumber))){
-                result[i] = candidateGovernor[blockLeaderList[i]];  
-            }            
-        }
-        return result;
-    }
-
+    //     Candidate[] memory result = new Candidate[](blockLeaderList.length);        
+    //     for(uint i = 0; i < blockLeaderList.length; i++){
+    //         if(keccak256(bytes(candidateBlockLeader[blockLeaderList[i]].collegeName)) == keccak256(bytes(voterCollegeName)) && keccak256(bytes(candidateBlockLeader[blockLeaderList[i]].blockNumber)) == keccak256(bytes(voterBlockNumber))){
+    //             result[i] = candidateGovernor[blockLeaderList[i]];  
+    //         }            
+    //     }
+    //     return result;
+    // }
     
 
-    function getVotingStatus() public view returns(bool) {
-        return (block.timestamp >= startTime && block.timestamp <= endTime);
-    }
+   
 
     function deleteVoter(address _voterAddress) public {
         delete voters[_voterAddress];
@@ -126,7 +122,6 @@ contract VoterContract is CandidateStructure, AccessControl, TimeStructure{
         require(keccak256(bytes(voters[msg.sender].password)) == keccak256(bytes(_password)), "Invalid password");
         hasLogedin[msg.sender] = true;
         voterSession[msg.sender] = _regNo;
-
     }
 
     function logout() public {

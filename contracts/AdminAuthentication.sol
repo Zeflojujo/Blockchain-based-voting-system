@@ -30,4 +30,5 @@ contract AdminAuthentication is TimeControl {
     function adminLogout() public {
         hasAdminLoggiedIn[msg.sender] = false;
     }
+
 }

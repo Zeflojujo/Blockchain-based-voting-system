@@ -18,6 +18,7 @@ import UserRegisterVoter from './components/User/register';
 import UserCastVote from './components/User/castVote';
 import UserResult from './components/User/result';
 import { AuthProvider } from './components/User/AuthProvider';
+import PageNotFound from './components/PageNotFound';
 
 import Home from './components/Admin/home';
 // import Web3 from 'web3';
@@ -65,6 +66,7 @@ function App() {
           <Route path='/user/dashboard' element={<UserDashboard/>} />
           <Route path="/user/castVote" element={<UserCastVote/>} />   
           <Route path="/user/result" element={<UserResult/>} />   
+          <Route path="*" element={<PageNotFound/>} />   
 
         </Routes>
       </AuthProvider>

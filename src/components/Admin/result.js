@@ -20,7 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // import { experimentalStyled as styled } from '@mui/material/styles';
 import Web3 from 'web3';
-import contractAbi from "../../abi/VoterRegistry.json";
+import contractAbi from "../../abi/VoterContract.json";
 import {Link} from 'react-router-dom';
 
 

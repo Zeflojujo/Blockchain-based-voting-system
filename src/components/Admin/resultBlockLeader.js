@@ -15,8 +15,9 @@ import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 import { styled } from '@mui/styles';
 import Web3 from 'web3';
-// import contractAbi from "../../abi/CandidateBlockLeader.json";
-import candidateAbi from "../../abi/CandidateContract.json";
+// import candidateAbi from "../../abi/CandidateContract.json";
+import candidateAbi from "../../abi/CandidateBlockLeader.json";
+import voterAbi from "../../abi/TimeControl.json";
 import { Modal, Fade, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import Avatar from '@mui/material/Avatar';
@@ -212,12 +213,13 @@ const ResultBlockLeader = (props) => {
 
       const abi = candidateAbi.abi;
       const address = candidateAbi.networks[5777].address;
+      const vAddress = voterAbi.networks[5777].address;
       const contract = new web3.eth.Contract(abi, address);
 
       const selectedAccount = await web3.eth.getCoinbase();
       console.log(selectedAccount)
       
-      await contract.methods.registerBlockLeader(firstName, lastName, college, program, yearOfStudy, regNo, blockNumber).send({ from: selectedAccount, gas: 1000000 });
+      await contract.methods.registerBlockLeader(firstName, lastName, college, program, yearOfStudy, regNo, blockNumber, vAddress).send({ from: selectedAccount, gas: 1000000 });
       
       setSuccessMessage("BlockLeader is registered successfully!");
       setSuccessMessageOpen(true);
@@ -405,7 +407,7 @@ const ResultBlockLeader = (props) => {
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'firstName', headerName: 'First Name', width: 150 },
     { field: 'lastName', headerName: 'Last Name', width: 150 },
-    { field: 'regNo', headerName: 'Reg No.', width: 150 },
+    { field: 'regNo', headerName: 'Reg No.', width: 180 },
     { field: 'voteCount', headerName: 'Vote Count', width: 120 },
     { field: 'college', headerName: 'College', width: 120 },
     { field: 'program', headerName: 'Program', width: 120 },

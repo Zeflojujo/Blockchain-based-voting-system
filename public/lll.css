@@ -3,20 +3,24 @@
     box-sizing: border-box;
 }
 body{
-    align-items: center;
-    display:flex;
-    justify-content: center;
-    flex-direction: column;
-    background: #f6f5f7;
-    font-family: 'monserrat', sans-serif;
+    
     min-height: 100%;
-    margin: 10%;
+    margin: 0;
+    padding: 0;
+    
 }
 .container{
     position: relative;
     width: 768px;
     max-width: 100%;
+    font-family: 'monserrat', sans-serif;
+    background: #f6f5f7;
+    margin: 10%;
     min-height:480px;
+    align-items: center;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
     background: #fff;
     border-radius: 10px;
     overflow: hidden;

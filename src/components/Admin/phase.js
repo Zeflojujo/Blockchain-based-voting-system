@@ -23,7 +23,7 @@ import * as Yup from "yup";
 
 // const networkId = "http://127.0.0.1:7545";
 
-const drawerWidth = 260;
+const drawerWidth = 200;
 const mdTheme = createTheme();
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Phase = (props) => {
   const [open, setOpen] = useState(true);
-  const [contracts, setContracts] = useState('');
+  // const [contracts, setContracts] = useState('');
   const [web3, setWeb3] = useState('');
   const classes = useStyles();
 
@@ -122,7 +122,7 @@ const Phase = (props) => {
 
       const selectedAccount = await web3.eth.getCoinbase();
       console.log(selectedAccount)
-      const time = await contract.methods.setVotingPeriod(startTime, endTime).send({ from: selectedAccount, gas: 1000000 });
+      await contract.methods.setVotingPeriod(startTime, endTime).send({ from: selectedAccount, gas: 1000000 });
 
       console.log("AFTER SET VOT TIME");
       // const getTime = await contract.methods.getTime().call();

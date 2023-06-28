@@ -15,7 +15,7 @@ import NavBar from './layout/navBar';
 import SideBar from './layout/SideBar';
 import Footer from './layout/Footer';
 import Web3 from 'web3';
-import contractAbi from "../../abi/VoterRegistry.json";
+import contractAbi from "../../abi/VoterContract.json";
 
 
 const networkId = "http://127.0.0.1:7545";

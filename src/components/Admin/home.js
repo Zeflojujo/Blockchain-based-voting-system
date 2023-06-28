@@ -1,91 +1,265 @@
+// import React from 'react';
+// // import 'url' from 'https://fonts.googleapis.com/css?family=Montserrat:400,800';
+// // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// // import { faFacebookF, faGooglePlusG, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+
+
+// const SignInComponent = () => {
+//   const handleSignUpClick = () => {
+//     const main = document.getElementById('main');
+//     main.classList.add('right-panel-active');
+//   };
+
+//   const handleSignInClick = () => {
+//     const main = document.getElementById('main');
+//     main.classList.remove('right-panel-active');
+//   };
+
+//   const handleVoterLogin = (event) => {
+//     event.preventDefault();
+//     window.location.hash = "/user/login"
+//   }
+//   const handleAdminLogin = (event) => {
+//     event.preventDefault();
+//     window.location.hash = "/admin/auth"
+//   }
+
+//   return (
+//     <div className="container" id="main">
+//       <div className="sign-up">
+//         <form action="" className='form-home'>
+//           <h1>Sign In</h1>
+//           <p>For Admin Only</p>
+//           <div className="social-container">
+//             <a href="#g" className="social-container">
+//               {/* <FontAwesomeIcon icon={faFacebookF} /> */}
+//             </a>
+//             <a href="#fg" className="social-container">
+//               {/* <FontAwesomeIcon icon={faGooglePlusG} /> */}
+//             </a>
+//             <a href="#d" className="social-container">
+//               {/* <FontAwesomeIcon icon={faLinkedinIn} /> */}
+//             </a>
+//           </div>
+//           <p>Click below button to Sign In as an Admin</p>
+//           <button className='home-button' id="admin" onClick={handleAdminLogin}>sign In</button>
+//         </form>
+//       </div>
+
+//       <div className="sign-in">
+//         <form action="">
+//           <h4>The University of Dodoma</h4>
+//           <p>Blockchain Based Voting System</p>
+//           <div className="social-container">
+//             <a href="" className="social-container">
+//               {/* <FontAwesomeIcon icon={faFacebookF} /> */}
+//             </a>
+//             <a href="" className="social-container">
+//               {/* <FontAwesomeIcon icon={faGooglePlusG} /> */}
+//             </a>
+//             <a href="" className="social-container">
+//               {/* <FontAwesomeIcon icon={faLinkedinIn} /> */}
+//             </a>
+//           </div>
+
+//           <small>
+//             Don't you have an account? <a href="/user/regVoter" style={{color: "#1d9b39"}}>Create Account</a>
+//           </small>
+//           <button className='home-button' id="voter" onClick={handleVoterLogin}>sign in</button>
+//         </form>
+//       </div>
+
+//       <div className="overlay-container">
+//         <div className="overlay">
+//           <div className="overlay-left">
+//             <h1>Welcome Back!</h1>
+//             <p>Secure platform based on a new and rapid emerging technology of Blockchain</p>
+//             <button className='home-button' onClick={handleSignInClick} style={{border: "1px solid #fff", backgroundColor: "transparent"}}>Voter</button>
+//           </div>
+
+//           <div className="overlay-right">
+//             <h1>Hello</h1>
+//             <p>Welcome to the Blockchain Based Electronic Voting system for Higher Learning Institutions.</p>
+//             <button className='home-button' onClick={handleSignUpClick} style={{border: "1px solid #fff"}}>Admin</button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default SignInComponent;
+
+
+// import React from 'react';
+// import { Typography, Button } from '@mui/material';
+// import { makeStyles } from '@material-ui/core/styles';
+
+// const useStyles = makeStyles((theme) => ({
+//   container: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     padding: theme.spacing(2),
+//   },
+//   heading: {
+//     fontSize: '2rem',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     marginBottom: theme.spacing(2),
+//   },
+//   description: {
+//     fontSize: '1.2rem',
+//     textAlign: 'center',
+//     marginBottom: theme.spacing(2),
+//   },
+//   button: {
+//     textTransform: 'none',
+//     marginTop: theme.spacing(2),
+//     padding: theme.spacing(1, 2),
+//   },
+// }));
+
+// const HomePage = () => {
+//   const classes = useStyles();
+
+//   const handleVoterLogin = (event) => {
+//     event.preventDefault();
+//     window.location.hash = '/user/login';
+//   };
+
+//   const handleAdminLogin = (event) => {
+//     event.preventDefault();
+//     window.location.hash = '/admin/auth';
+//   };
+
+//   return (
+//     <div className={classes.container}>
+//       <Typography variant="h1" className={classes.heading}>
+//         The University of Dodoma
+//       </Typography>
+//       <Typography variant="body1" className={classes.description}>
+//         Blockchain Based Voting System
+//       </Typography>
+//       <Button
+//         variant="contained"
+//         color="primary"
+//         className={classes.button}
+//         onClick={handleVoterLogin}
+//       >
+//         Sign In as Voter
+//       </Button>
+//       <Button
+//         variant="contained"
+//         color="primary"
+//         className={classes.button}
+//         onClick={handleAdminLogin}
+//       >
+//         Sign In as Admin
+//       </Button>
+//       <Typography variant="body2" style={{ marginTop: '1rem' }}>
+//         Don't have an account?{' '}
+//         <a href="/user/regVoter" style={{ color: '#1d9b39' }}>
+//           Create Account
+//         </a>
+//       </Typography>
+//     </div>
+//   );
+// };
+
+// export default HomePage;
+
+
+
+
+
 import React from 'react';
-// import 'url' from 'https://fonts.googleapis.com/css?family=Montserrat:400,800';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faFacebookF, faGooglePlusG, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { Typography, Button } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
+import flatDesign from "../images/flatDesign.avif"
+import international from "../images/international.avif"
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    // padding: theme.spacing(2),
+    backgroundImage: `url(${international})`,
+    backgroundSize: 'cover',
+    backgroundOrigin:'origin',
+    backgroundPosition: 'center',
+    
+  },
+  heading: {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: theme.spacing(2),
+    color: theme.palette.common.white, // Set the heading color to white
+  },
+  description: {
+    fontSize: '1.2rem',
+    textAlign: 'center',
+    marginBottom: theme.spacing(2),
+    color: theme.palette.common.white, // Set the description color to white
+  },
+  button: {
+    textTransform: 'none',
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(1, 2),
+  },
+}));
 
-
-const SignInComponent = () => {
-  const handleSignUpClick = () => {
-    const main = document.getElementById('main');
-    main.classList.add('right-panel-active');
-  };
-
-  const handleSignInClick = () => {
-    const main = document.getElementById('main');
-    main.classList.remove('right-panel-active');
-  };
+const HomePage = () => {
+  const classes = useStyles();
 
   const handleVoterLogin = (event) => {
     event.preventDefault();
-    window.location.hash = "/user/login"
-  }
+    window.location.hash = '/user/login';
+  };
+
   const handleAdminLogin = (event) => {
     event.preventDefault();
-    window.location.hash = "/admin/auth"
-  }
+    window.location.hash = '/admin/auth';
+  };
 
   return (
-    <div className="container" id="main">
-      <div className="sign-up">
-        <form action="" className='form-home'>
-          <h1>Sign In</h1>
-          <p>For Admin Only</p>
-          <div className="social-container">
-            <a href="#g" className="social-container">
-              {/* <FontAwesomeIcon icon={faFacebookF} /> */}
-            </a>
-            <a href="#fg" className="social-container">
-              {/* <FontAwesomeIcon icon={faGooglePlusG} /> */}
-            </a>
-            <a href="#d" className="social-container">
-              {/* <FontAwesomeIcon icon={faLinkedinIn} /> */}
-            </a>
-          </div>
-          <p>Click below button to Sign In as an Admin</p>
-          <button className='home-button' id="admin" onClick={handleAdminLogin}>sign In</button>
-        </form>
-      </div>
-
-      <div className="sign-in">
-        <form action="">
-          <h4>The University of Dodoma</h4>
-          <p>Blockchain Based Voting System</p>
-          <div className="social-container">
-            <a href="" className="social-container">
-              {/* <FontAwesomeIcon icon={faFacebookF} /> */}
-            </a>
-            <a href="" className="social-container">
-              {/* <FontAwesomeIcon icon={faGooglePlusG} /> */}
-            </a>
-            <a href="" className="social-container">
-              {/* <FontAwesomeIcon icon={faLinkedinIn} /> */}
-            </a>
-          </div>
-
-          <small>
-            Don't you have an account? <a href="/user/regVoter" style={{color: "#1d9b39"}}>Create Account</a>
-          </small>
-          <button className='home-button' id="voter" onClick={handleVoterLogin}>sign in</button>
-        </form>
-      </div>
-
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>Secure platform based on a new and rapid emerging technology of Blockchain</p>
-            <button className='home-button' onClick={handleSignInClick} style={{border: "1px solid #fff", backgroundColor: "transparent"}}>Voter</button>
-          </div>
-
-          <div className="overlay-right">
-            <h1>Hello</h1>
-            <p>Welcome to the Blockchain Based Electronic Voting system for Higher Learning Institutions.</p>
-            <button className='home-button' onClick={handleSignUpClick} style={{border: "1px solid #fff"}}>Admin</button>
-          </div>
-        </div>
-      </div>
+    <div className={classes.container}>
+      <Typography variant="h1" className={classes.heading}>
+        The University of Dodoma
+      </Typography>
+      <Typography variant="body1" className={classes.description}>
+        Blockchain Based Voting System
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={handleVoterLogin}
+      >
+        Sign In as Voter
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={handleAdminLogin}
+      >
+        Sign In as Admin
+      </Button>
+      <Typography variant="body2" style={{ marginTop: '1rem' }}>
+        Don't have an account?{' '}
+        <a href="/user/regVoter" style={{ color: '#1d9b39' }}>
+          Create Account
+        </a>
+      </Typography>
     </div>
   );
 };
 
-export default SignInComponent;
+export default HomePage;

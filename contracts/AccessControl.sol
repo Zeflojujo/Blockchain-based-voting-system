@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 contract AccessControl {
 
     address public admin;
+    bool isPublished;
     // mapping(address => bool) internal authorized;
 
     constructor() {
@@ -30,6 +31,15 @@ contract AccessControl {
 
     function transferAdmin(address newAdmin) public virtual onlyAdmin {
         admin = newAdmin;
+    }
+
+    function setPublished() public onlyAdmin{
+        require(!isPublished, "Result is already published!");
+        isPublished = true;
+    }
+
+    function getPublished() public view returns(bool){
+        return isPublished;
     }
 
    

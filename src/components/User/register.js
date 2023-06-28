@@ -157,7 +157,7 @@ const RegisterVoter = (props) => {
       setSuccessMessage("Woop woop! Voter is registered successfully!!!");
       setSuccessMessageOpen(true);
 
-      window.location.href="/user/login"
+      window.location.href="/#/user/login"
 
       setConfirmPassword("");
       setPassword("");

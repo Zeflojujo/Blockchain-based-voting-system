@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+
+import React, { useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -11,26 +12,17 @@ import SideBar from './layouts/SideBar';
 import Footer from './layouts/Footer';
 // import { useTheme } from '@mui/material/styles';
 import ScheduleIcon from "@material-ui/icons/Schedule";
-import Tablee from './table';
-import { AuthContext } from './AuthProvider';
-
-//user Details table
-
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
 // import TimeChart from './chart';
 
 // import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
-
+import contractAbi from "../../abi/TimeControl.json";
+import Web3 from 'web3';
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const networkId = "http://127.0.0.1:7545";
 
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
   },
@@ -82,25 +74,120 @@ const mdTheme = createTheme();
 
 const Dashboard = (props) => {
   const classes = useStyles();
-  const { voter } = useContext(AuthContext);
-
 
   // const theme = useTheme();
 
   const [open, setOpen] = React.useState(true);
+  // const [web3, setWeb3] = React.useState(true);
+  const [startTime, setStartTime] = React.useState("");
+  const [endTime, setEndTime] = React.useState("");
+  const [remainingTime, setRemainingTime] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  useEffect(() => {
+    const init = async () => {
+      if (window.ethereum) {
+        try{
+          // Request MetaMask account access
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+          // Create a new web3 instance
+          // const web3Instance = new Web3(window.ethereum);
+          // setWeb3(web3Instance);
+
+        }
+        catch(error){
+          console.error(`User denied account access `);
+        }
+      }else {
+          console.error('Please install MetaMask');
+      }  
+    };
+    init(); 
+    getVotingTime();
+    getRemaingTime();
+    // setInterval(getRemaingTime, 1000);
+  },[startTime, endTime, remainingTime]);
+
+  const getRemaingTime = async () => {
+    const web3 = new Web3(networkId);
+    const abi = contractAbi.abi;
+    const address = contractAbi.networks[5777].address;
+    const contract = new web3.eth.Contract(abi, address);
+
+    console.log("remaining time is1:");
+
+    const remainingTime = await contract.methods.getRemainingTime().call();
+    console.log("remaining time is2:", remainingTime);
+    const convertToTimeFormat = (time) => {
+      const days = Math.floor(time / (3600 * 24));
+      const hours = Math.floor((time % (3600 * 24)) / 3600);
+      const minutes = Math.floor((time % 3600) / 60);
+      return `${days} days ${hours.toString().padStart(2, "0")} hours ${minutes
+        .toString()
+        .padStart(2, "0")} minutes`;
+    };
+
+    const rTime = convertToTimeFormat(remainingTime);
+
+    console.log("remaining time is:", rTime);
+
+    setRemainingTime(rTime);
+}
+
+
+  const getVotingTime = async () => {
+    try {
+      const web3 = new Web3(networkId);
+      const abi = contractAbi.abi;
+      const address = contractAbi.networks[5777].address;
+      const contract = new web3.eth.Contract(abi, address);
+  
+      const fetchTimeFromContract = async () => {
+        const getTime = await contract.methods.getTime().call();
+  
+        const convertToTimeFormat = (time) => {
+          const days = Math.floor(time / (3600 * 24));
+          const hours = Math.floor((time % (3600 * 24)) / 3600);
+          const minutes = Math.floor((time % 3600) / 60);
+          return `${days} days ${hours.toString().padStart(2, "0")} hours ${minutes
+            .toString()
+            .padStart(2, "0")} minutes`;
+        };
+  
+        const startTime = convertToTimeFormat(getTime[0]);
+        const endTime = convertToTimeFormat(getTime[1]);
+        // const remainingTime = convertToTimeFormat(getTime[2]);
+  
+        setStartTime(startTime);
+        setEndTime(endTime);
+        // setRemainingTime(remainingTime);
+  
+        console.log(startTime);
+        console.log(endTime);
+        // console.log(remainingTime);
+      };
+  
+      // Fetch the time initially
+      fetchTimeFromContract();
+  
+    } catch (error) {
+      console.log(error.message);
+    }
+
+  };
+
 // Example data - Replace with your actual data
-const startTime = new Date("2023-05-12T08:00:00Z");
-const endTime = new Date("2023-05-12T18:00:00Z");
-const remainingTime = endTime - Date.now(); // Calculate remaining time in milliseconds
+// const startTime = new Date("2023-05-12T08:00:00Z");
+// const endTime = new Date("2023-05-12T18:00:00Z");
+// const remainingTime = endTime - Date.now(); // Calculate remaining time in milliseconds
 
 // Format remaining time for display
-const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+// const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+// const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+// const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -148,7 +235,7 @@ const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                               <ScheduleIcon className={classes.icon} />
                               <Typography variant="h6">Start Time</Typography>
                               <Typography variant="body1">
-                                {startTime.toLocaleString()} {/* Adjust the format as needed */}
+                                {startTime.toLocaleString()}
                               </Typography>
                             </div>
                           </Grid>
@@ -157,7 +244,7 @@ const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                               <ScheduleIcon className={classes.icon} />
                               <Typography variant="h6">End Time</Typography>
                               <Typography variant="body1">
-                                {endTime.toLocaleString()} {/* Adjust the format as needed */}
+                                {endTime.toLocaleString()}
                               </Typography>
                             </div>
                           </Grid>
@@ -166,29 +253,15 @@ const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                               <ScheduleIcon className={classes.icon} />
                               <Typography variant="h6">Remaining Time</Typography>
                               <Typography variant="body1">
-                                {days} days, {hours} hours, {minutes} minutes
+                                {remainingTime.toLocaleString()}
                               </Typography>
                             </div>
                           </Grid>
                           {/* Add more Grid items for additional content */}
                         </Grid>
                       </Paper>
-                      {/* {voter && (
-                        <div>
-                          <p>Voter Address: {voter.voterAddress}</p>
-                          <p>First Name: {voter.firstName}</p>
-                          <p>Last Name: {voter.lastName}</p>
-                          <p>College Name: {voter.collegeName}</p>
-                          <p>Program Name: {voter.programName}</p>
-                          <p>Registration Number: {voter.regNo}</p>
-                          <p>Year of Study: {voter.yearOfStudy}</p>
-                          <p>Block Number: {voter.blockNumber}</p>
-                          <p>Gender: {voter.gender}</p>
-                        </div>
-                      )} */}
 
-                      {/* <Tablee voter={voter} /> */}
-
+                    {/* <TimeChart /> */}
                     {/* <TimeChart startTime={startTime} endTime={endTime} /> */}
                 </Paper>
                 

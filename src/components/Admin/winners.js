@@ -17,10 +17,11 @@ import Footer from './layout/Footer';
 // import { styled } from '@mui/styles';
 import Web3 from 'web3';
 // import contractAbi from "../../abi/CandidateRegistry.json";
-// import candidateAbi from "../../abi/CastVote.json";
-import candidateAbi from "../../abi/CandidateContract.json";
-// import candidateAbi from "../../abi/CandidatePresident.json";
-// import candidateAbi from "../../abi/CandidateBlockLeader.json";
+import AccessControlAbi from "../../abi/AccessControl.json";
+// import candidateAbi from "../../abi/CandidateContract.json";
+import GovernorAbi from "../../abi/CandidateGovernor.json";
+import PresidentAbi from "../../abi/CandidatePresident.json";
+import BlockLeaderAbi from "../../abi/CandidateBlockLeader.json";
 // import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from '@mui/x-data-grid';
 import { useMediaQuery } from '@mui/material';
@@ -35,7 +36,8 @@ const theme = createTheme();
 const ResultPresident = (props) => {
 
   const [winnerCandidate, setWinnerCandidate] = useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
+  const [status, setStatus] = useState(false);
   // const [openn, setOpenn] = useState(false);
   // const [contracts, setContracts] = useState(null);
   const [web3, setWeb3] = useState(null);
@@ -77,21 +79,37 @@ const ResultPresident = (props) => {
       };
       init(); 
       getWinnerPresident();
-      getWinnerGovernor();
-      getWinnerBlockLeader();
+      getVotingTimeStatus();
+      // getWinnerGovernor();
+      // getWinnerBlockLeader();
     },[]);
+
+    const getVotingTimeStatus = async () => {
+      const web3 = new Web3(networkId);
+      const abi = AccessControlAbi.abi;
+      const address = AccessControlAbi.networks[5777].address;
+      const contract = new web3.eth.Contract(abi, address);
+  
+      console.log("before starting voting");
+  
+      const timeStatus = await contract.methods.getVotingStatus().call();
+  
+      console.log(timeStatus);
+  
+      setStatus(timeStatus);
+  }
 
     const handlePublishResult = async () => {
         // const web3 = new Web3(networkId);
-      const abi = candidateAbi.abi;
-      const address = candidateAbi.networks[5777].address;
+      const abi = AccessControlAbi.abi;
+      const address = AccessControlAbi.networks[5777].address;
       const contract = new web3.eth.Contract(abi, address);
 
       const selectedAccount = await web3.eth.getCoinbase();
 
-      console.log(selectedAccount)
+      console.log(selectedAccount);
 
-      const publish = await contract.methods.setPublished().send({from: selectedAccount , gas: 1000000});
+      await contract.methods.setPublished().send({from: selectedAccount , gas: 1000000});
 
       console.log("Result is published successfully!");
     }
@@ -99,15 +117,23 @@ const ResultPresident = (props) => {
 
     const getWinnerPresident = async () => {
       const web3 = new Web3(networkId);
-      const abi = candidateAbi.abi;
-      const address = candidateAbi.networks[5777].address;
+      const abi = PresidentAbi.abi;
+      const address = PresidentAbi.networks[5777].address;
       const contract = new web3.eth.Contract(abi, address);
+
+      const abiG = GovernorAbi.abi;
+      const addressG = GovernorAbi.networks[5777].address;
+      const contractG = new web3.eth.Contract(abiG, addressG);
+
+      const abiB = BlockLeaderAbi.abi;
+      const addressB = BlockLeaderAbi.networks[5777].address;
+      const contractB = new web3.eth.Contract(abiB, addressB);
 
       const winnerData = [];
 
       const winnerPresidentData = await contract.methods.getWinnerPresident().call();
-      const winnerGovernorData = await contract.methods.getWinnerGovernor().call();
-      const winnerBlockLeaderData = await contract.methods.getWinnerBlockLeader().call();
+      const winnerGovernorData = await contractG.methods.getWinnerGovernor().call();
+      const winnerBlockLeaderData = await contractB.methods.getWinnerBlockLeader().call();
       winnerData.push(winnerPresidentData);
       winnerData.push(winnerGovernorData);
       winnerData.push(winnerBlockLeaderData);
@@ -117,40 +143,6 @@ const ResultPresident = (props) => {
       console.log(winnerBlockLeaderData)
 
       setWinnerCandidate(winnerData);
-
-    };
-
-    const getWinnerGovernor = async () => {
-      const web3 = new Web3(networkId);
-      const abi = candidateAbi.abi;
-      const address = candidateAbi.networks[5777].address;
-      const contract = new web3.eth.Contract(abi, address);
-
-      // const winnerPresidentData = [];
-
-      const winnerGovernorData = await contract.methods.getWinnerGovernor().call();
-      // winnerGovernorData.push(president);
-
-      // console.log(winnerGovernorData)
-
-      // setWinnerCandidate(winnerGovernorData);
-
-    };
-
-    const getWinnerBlockLeader = async () => {
-      const web3 = new Web3(networkId);
-      const abi = candidateAbi.abi;
-      const address = candidateAbi.networks[5777].address;
-      const contract = new web3.eth.Contract(abi, address);
-
-      // const winnerData = [];
-
-      const winnerBlockLeaderData = await contract.methods.getWinnerBlockLeader().call();
-      // winnerBlockLeaderData.push(president);
-
-      // console.log(winnerBlockLeaderData)
-
-      // setWinnerCandidate(winnerBlockLeaderData);
 
     };
 

@@ -15,8 +15,9 @@ import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 import { styled } from '@mui/styles';
 import Web3 from 'web3';
-// import contractAbi from "../../abi/CandidatePresident.json";
-import candidateAbi from "../../abi/CandidateContract.json";
+import candidateAbi from "../../abi/CandidatePresident.json";
+// import candidateAbi from "../../abi/CandidateContract.json";
+import voterAbi from "../../abi/TimeControl.json";
 import { Modal, Fade, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import Avatar from '@mui/material/Avatar';
@@ -136,6 +137,7 @@ const ResultPresident = (props) => {
         if (window.ethereum) {
           try{
             // Request MetaMask account access
+           
             await window.ethereum.request({ method: 'eth_requestAccounts' });
   
             // Create a new web3 instance
@@ -156,13 +158,18 @@ const ResultPresident = (props) => {
 
     const handleRegisterPresident = async (event) => {
       try{
+        
         const abi = candidateAbi.abi;
+        console.log("abi", abi);
         const address = candidateAbi.networks[5777].address;
+        const vAddress = voterAbi.networks[5777].address;
+        console.log("address", address)
         const contract = new web3.eth.Contract(abi, address);
-
+        console.log("contract", contract);
         const selectedAccount = await web3.eth.getCoinbase();
+        console.log("the account is" , selectedAccount);
 
-        await contract.methods.registerPresident(firstName, lastName, college, program, yearOfStudy, regNo, blockNumber).send({ from: selectedAccount, gas: 1000000 });
+        await contract.methods.registerPresident(firstName, lastName, college, program, yearOfStudy, regNo, blockNumber, vAddress).send({ from: selectedAccount, gas: 1000000 });
         
         setSuccessMessage("Woop woop! President is registered successfully!");
         setSuccessMessageOpen(true); 
@@ -298,7 +305,7 @@ const ResultPresident = (props) => {
       { field: 'id', headerName: 'ID', width: 90 },
       { field: 'firstName', headerName: 'First Name', width: 150 },
       { field: 'lastName', headerName: 'Last Name', width: 150 },
-      { field: 'regNo', headerName: 'Reg No.', width: 150 },
+      { field: 'regNo', headerName: 'Reg No.', width: 180 },
       { field: 'voteCount', headerName: 'Vote Count', width: 120 },
       { field: 'college', headerName: 'College', width: 120 },
       { field: 'program', headerName: 'Program', width: 120 },
